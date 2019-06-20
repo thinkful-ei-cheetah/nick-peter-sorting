@@ -117,24 +117,29 @@ class LinkedList {
         previousNode.next = currNode.next;
     }
     cut(item) {
-        if (!this.head) {
+        let tempList = new LinkedList();
+        tempList.head = {...this.head};
+        // console.log(tempList.head)
+        if (!tempList.head) {
             return null;
         }
 
-        if (this.head.value === item) {
-            this.head = this.head.next;
+        if (tempList.head.value === item) {
+            tempList.head = tempList.head.next;
         }
-        let currNode = this.head;
-        let previousNode = this.head;
+        let currNode = tempList.head;
+        let previousNode = tempList.head;
         while ((currNode !== null) && (currNode.value !== item)) {
             previousNode = currNode;
             currNode = currNode.next;
         }
         if (currNode === null) {
-            console.log('item not found');
+            // console.log('item not found');
             return;
         }
         previousNode.next = null;
+        console.log(tempList)
+        return tempList;
     }
 }
 
@@ -149,36 +154,49 @@ function size(list) {
         currNode = currNode.next;
         length++;
     }
-    console.log(length);
+    // console.log(length);
     return length;
 }
 
 function getMid(list){
-    let currNode = list.head;
-    let i = 0;
-    let count = Math.floor(size(list) / 2)
-    while (i < count) {
-        currNode = currNode.next;
-        i++;
+    // console.log(list)
+    if(!list){
+        return '';
     }
-    console.log(currNode.value);
+    else{
+
+        console.log(list)
+        let currNode = list.head;
+        let i = 0;
+        let count = Math.floor(size(list) / 2)
+        while (i < count) {
+            currNode = currNode.next;
+            i++;
+        }
+        // console.log(currNode.value);
     return currNode;
+    }
 }
 
 function mergeSort(list){
-    if(list.head.next === null){
-        return list
-    }
-    let tempList = new LinkedList()
+    // if(list.head.next === null){
+    //     return list
+    // }
+    let resList = new LinkedList();
+    let tempList = new LinkedList();
     const middle = getMid(list)
-    tempList.head = middle;
-    list.cut(middle);
-    let left = list;
+    // console.log(middle)
+    tempList.head = {...middle};
+    // console.log(tempList)
+    let left = list.cut(middle);
+    console.log(left)
     let right = tempList;
+    console.log(right)
 
-    left = mergeSort(left);
     right = mergeSort(right);
-    return merge(left, right, list);
+    left = mergeSort(left);
+
+    return merge(left, right, resList);
 }
 
 function merge(left, right, list) {
@@ -200,6 +218,10 @@ function merge(left, right, list) {
         list.insertLast(lNode.value);
         lNode = lNode.next; 
     }
+    while(rNode !== null){
+        list.insertLast(rNode.value);
+        rNode = rNode.next; 
+    }
 
 
 }
@@ -212,15 +234,18 @@ function main() {
     SLL.insertLast('Husker');
     SLL.insertLast('Starbuck');
     SLL.insertLast('Tauhida');
+    console.log(SLL.head)
+    console.log(mergeSort(SLL))
+    // let tempList = new LinkedList()
 
-    let tempList = new LinkedList()
+    // const middle = getMid(SLL);
+    // SLL.cut(middle.value)
+    // tempList.head = middle;
+     
+    // console.log(SLL)
+    // console.log(tempList)
 
-    const middle = getMid(SLL);
-    SLL.cut(middle.value)
-    tempList.head = middle;
-    
-    console.log(SLL)
-    console.log(tempList)
+   
 }   
 
 main();
