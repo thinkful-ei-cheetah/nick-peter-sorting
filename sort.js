@@ -84,3 +84,4 @@ let testArr = []
 stringArr.map(str => testArr.push(Number(str)))
 
 console.log(quickSort(testArr))
+console.log(mergeSort(testArr))
